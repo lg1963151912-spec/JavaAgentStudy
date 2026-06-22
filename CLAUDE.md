@@ -7,8 +7,10 @@
 - `CURRICULUM.md` — 完整课程大纲（8 周），是所有学习内容的索引
 - `.claude/progress.md` — 每日学习进度、薄弱点、明日课程（由 hooks 读写）
 - `.claude/scripts/session_start.sh` — 会话开始时展示进度
-- `.claude/scripts/session_stop.sh` — 每日结束时提示更新进度
-- `.claude/settings.local.json` — hooks 与权限配置
+- `.claude/scripts/session_stop.sh` — 每日 23:30 后提示更新进度并自动推送 GitHub
+- `.claude/scripts/push_to_github.sh` — 智能同步项目变更到 GitHub（走 Contents API，绕过 git 封锁）
+- `.claude/settings.json` — hooks 配置（SessionStart + Stop）
+- `.claude/settings.local.json` — 权限配置（permissions）
 
 ## 工作约定
 - 使用 **中文** 交流、写注释与文档
@@ -18,7 +20,9 @@
 
 ## Hooks 行为
 - **SessionStart**：自动输出 `.claude/progress.md` 内容作为会话上下文
-- **Stop**：每天 20:00 后若 `progress.md` 今日未更新则 block，要求写当日总结
+- **Stop**（每日 23:30 后）：
+  - 若 `progress.md` 今日未更新 → block，要求写当日总结
+  - 总结写完后 → 自动调用 `push_to_github.sh` 把变更推送到 GitHub（每天一次，幂等）
 
 ## 更新进度的规范
 当需要更新 `.claude/progress.md` 时：
