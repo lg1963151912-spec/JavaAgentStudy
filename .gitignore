@@ -1,0 +1,15 @@
+# 本地状态文件（推送标记、日志）
+.claude/.last_push
+.claude/scripts/push.log
+
+# Java
+target/
+*.class
+*.jar
+*.war
+
+# IDE
+.idea/
+*.iml
+.vscode/
+*.swp
